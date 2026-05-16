@@ -8,14 +8,23 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var url: String = ""
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        ZStack {
+            if url.isEmpty {
+                Label("Nova", systemImage: "magnifyingglass.circle")
+                    .font(.largeTitle)
+            } else {
+                Webview(url: $url)
+                    .ignoresSafeArea(edges: .bottom)
+            }
+            
+            VStack {
+                Spacer()
+                TabBarView(url: $url)
+            }
         }
-        .padding()
     }
 }
 

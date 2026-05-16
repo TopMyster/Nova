@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct TabBarView: View {
+    @State var newUrl = ""
+    @Binding var url: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        HStack() {
+            TextField("**Enter URL**", text: $newUrl).padding(.leading, 15).textFieldStyle(.plain)
+            Button("Search", systemImage: "magnifyingglass") {
+                url = newUrl
+            }.padding(5).foregroundStyle(Color.white).buttonStyle(.borderedProminent)
+        }.padding(5).glassEffect(.regular).frame(width: 350)
     }
 }
 
 #Preview {
-    TabBarView()
+    ContentView()
 }

@@ -15,3 +15,7 @@ struct NovaApp: App {
         }
     }
 }
+
+#Preview {
+    ContentView()
+}
