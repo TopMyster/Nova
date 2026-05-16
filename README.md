@@ -1,4 +1,4 @@
-# Nova-Browser
+# Nova
 A browser for iOS built in Swift
 
 https://github.com/user-attachments/assets/53814881-7c96-4667-a13a-46162462dfeb
