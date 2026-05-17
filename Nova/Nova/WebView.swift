@@ -10,7 +10,6 @@ import WebKit
 
 struct Webview: UIViewRepresentable {
     @Binding var url: String
-    @Binding var tabs: [String]
     func makeUIView(context: Context) -> WKWebView {
         return WKWebView()
     }

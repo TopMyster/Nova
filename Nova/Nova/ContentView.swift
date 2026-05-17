@@ -10,7 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State var url: String = ""
     @State var showTabs: Bool = false
-    @State var tabs: [String] = []
+    @State var tabs: [BrowserTab] = []
+    @State var selectedTabID: BrowserTab.ID?
     
     var body: some View {
         ZStack {
@@ -18,17 +19,19 @@ struct ContentView: View {
                 Label("Nova", systemImage: "magnifyingglass.circle")
                     .font(.largeTitle)
             } else {
-                Webview(url: $url, tabs: $tabs)
+                Webview(url: $url)
                     .ignoresSafeArea(edges: .bottom)
             }
             
             VStack {
                 Spacer()
                 if showTabs {
-                    TabsView(tabs: $tabs)
+                    TabsView(tabs: $tabs, selectedTabID: $selectedTabID, url: $url, showTabs: $showTabs)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
-                TabBarView(showTabs: $showTabs, url: $url, tabs: $tabs)
+                TabBarView(showTabs: $showTabs, url: $url, tabs: $tabs, selectedTabID: $selectedTabID)
             }
+            .animation(.snappy(duration: 0.25), value: showTabs)
         }
     }
 }

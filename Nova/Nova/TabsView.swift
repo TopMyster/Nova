@@ -16,38 +16,73 @@ struct TabsView: View {
     var body: some View {
         if !tabs.isEmpty {
             VStack(spacing: 12) {
-                ScrollView {
-                    LazyVStack(spacing: 10) {
-                        ForEach(tabs) { tab in
-                            TabRow(
-                                tab: tab,
-                                isSelected: selectedTabID == tab.id,
-                                selectTab: {
-                                    selectedTabID = tab.id
-                                    url = tab.url
-                                    showTabs = false
-                                },
-                                closeTab: {
-                                    close(tab)
-                                }
-                            )
-                        }
+                List {
+                    ForEach(tabs) { tab in
+                        TabRow(
+                            tab: tab,
+                            isSelected: selectedTabID == tab.id,
+                            selectTab: {
+                                selectedTabID = tab.id
+                                url = tab.url
+                                showTabs = false
+                            },
+                            closeTab: {
+                                close(tab)
+                            }
+                        )
+                        .listRowInsets(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
+                        .listRowSeparator(.hidden)
+                        .listRowBackground(Color.clear)
+                        .transition(rowTransition)
                     }
-                    .padding(15)
+                    .onDelete(perform: closeTabs)
                 }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+                .background(Color.clear)
+                .animation(.snappy(duration: 0.25), value: tabs)
             }
             .glassEffect(.regular, in: .rect(cornerRadius: 30))
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: 350)
             .frame(height: 350)
+            .transition(panelTransition)
         }
     }
 
-    private func close(_ tab: BrowserTab) {
-        tabs.removeAll { $0.id == tab.id }
+    private var panelTransition: AnyTransition {
+        .move(edge: .bottom).combined(with: .opacity)
+    }
 
-        if selectedTabID == tab.id {
-            selectedTabID = tabs.last?.id
-            url = tabs.last?.url ?? ""
+    private var rowTransition: AnyTransition {
+        .asymmetric(
+            insertion: .move(edge: .bottom).combined(with: .opacity),
+            removal: .move(edge: .trailing).combined(with: .opacity)
+        )
+    }
+
+    private func close(_ tab: BrowserTab) {
+        withAnimation(.snappy(duration: 0.25)) {
+            tabs.removeAll { $0.id == tab.id }
+
+            if selectedTabID == tab.id {
+                selectedTabID = tabs.last?.id
+                url = tabs.last?.url ?? ""
+            }
+        }
+    }
+
+    private func closeTabs(at offsets: IndexSet) {
+        let closingSelectedTab = selectedTabID.map { selectedID in
+            offsets.contains { tabs[$0].id == selectedID }
+        } ?? false
+
+        withAnimation(.snappy(duration: 0.25)) {
+            tabs.remove(atOffsets: offsets)
+
+            if closingSelectedTab {
+                selectedTabID = tabs.last?.id
+                url = tabs.last?.url ?? ""
+            }
         }
     }
 }
@@ -63,40 +98,32 @@ private struct TabRow: View {
     }
 
     var body: some View {
-        HStack(spacing: 10) {
-            Button(action: selectTab) {
-                HStack(spacing: 10) {
-                    Image(systemName: tab.url.isEmpty ? "plus.circle" : "globe")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundStyle(isSelected ? Color.white : Color.primary.opacity(0.75))
-                        .frame(width: 22, height: 22)
+        VStack() {
+            HStack(spacing: 10) {
+                Button(action: selectTab) {
+                    HStack(spacing: 10) {
+                        Image(systemName: tab.url.isEmpty ? "plus.circle" : "globe")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundStyle(isSelected ? Color.white : Color.primary.opacity(0.75))
+                            .frame(width: 22, height: 22)
 
-                    Text(title)
-                        .font(.system(size: 15, weight: isSelected ? .semibold : .regular))
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .foregroundStyle(isSelected ? Color.white : Color.primary)
+                        Text(title)
+                            .font(.system(size: 15, weight: isSelected ? .semibold : .regular))
+                            .lineLimit(1)
+                            .truncationMode(.middle)
+                            .foregroundStyle(isSelected ? Color.white : Color.primary)
 
-                    Spacer(minLength: 0)
-                }
-                .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-
-            Button(action: closeTab) {
-                Image(systemName: "xmark")
-                    .font(.system(size: 12, weight: .bold))
-                    .foregroundStyle(isSelected ? Color.white : Color.secondary)
-                    .frame(width: 28, height: 28)
+                        Spacer(minLength: 0)
+                    }
                     .contentShape(.rect)
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
-            .accessibilityLabel("Close tab")
-        }
-        .padding(.leading, 14)
-        .padding(.trailing, 8)
-        .padding(.vertical, 10)
-        .background(rowBackground, in: .rect(cornerRadius: 14))
+            .padding(.leading, 14)
+            .padding(.trailing, 8)
+            .padding(.vertical, 10)
+            .background(rowBackground, in: .rect(cornerRadius: 14))
+        }.padding(.top, 10)
     }
 
     private var rowBackground: Color {

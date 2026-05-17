@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		13F1BCCB2FB973AE00C0C682 /* BrowserTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13F1BCCA2FB973AE00C0C682 /* BrowserTab.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
-		13F198512FB9063500990722 /* Nova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nova.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13F198512FB9063500990722 /* Nova.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Nova.app; path = "/Users/toopeoladunjoye/Git Clones/Nova/Nova/build/Debug-iphoneos/Nova.app"; sourceTree = "<absolute>"; };
+		13F1BCCA2FB973AE00C0C682 /* BrowserTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTab.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,16 +38,8 @@
 			isa = PBXGroup;
 			children = (
 				13F198532FB9063500990722 /* Nova */,
-				13F198522FB9063500990722 /* Products */,
+				13F1BCCA2FB973AE00C0C682 /* BrowserTab.swift */,
 			);
-			sourceTree = "<group>";
-		};
-		13F198522FB9063500990722 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				13F198512FB9063500990722 /* Nova.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,7 +92,7 @@
 			mainGroup = 13F198482FB9063500990722;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 13F198522FB9063500990722 /* Products */;
+			productRefGroup = 13F198482FB9063500990722;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -119,6 +116,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				13F1BCCB2FB973AE00C0C682 /* BrowserTab.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
