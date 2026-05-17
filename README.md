@@ -2,13 +2,13 @@
 
 A minimal iOS browser built with Swift and SwiftUI. Made to show more of your content and less controls.
 
-https://github.com/user-attachments/assets/53814881-7c96-4667-a13a-46162462dfeb
+https://github.com/user-attachments/assets/9b3e1a7c-342b-4444-9e4a-ad58872fc98c
 
 ## Features
 
 - **Content First Design** 
 - **Minimal TabBar** 
-- **Built Natively with SwiftUI** —
+- **Built Natively with SwiftUI** 
 
 ## Tech Stack
 
